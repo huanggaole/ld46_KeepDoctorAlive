@@ -1,0 +1,6 @@
+{
+  "code": "import { GameScene } from \"./GameScene\";\r\nexport class Cover extends Laya.Scene {\r\n    createChildren() {\r\n        super.createChildren();\r\n        this.loadScene(\"cover\");\r\n        this.gamescene = new GameScene();\r\n    }\r\n    onAwake() {\r\n        this.btn_cn.on(Laya.Event.CLICK, this, this.onNewChineseGame);\r\n        this.btn_en.on(Laya.Event.CLICK, this, this.onNewEnglishGame);\r\n    }\r\n    onNewChineseGame() {\r\n        this.gamescene.init(true);\r\n        Laya.stage.addChild(this.gamescene);\r\n    }\r\n    onNewEnglishGame() {\r\n        this.gamescene.init(false);\r\n        Laya.stage.addChild(this.gamescene);\r\n    }\r\n}\r\n",
+  "references": [
+    "C:/Users/huang/Documents/myLaya/KeepDoctorAlive/src/scene/GameScene.ts"
+  ]
+}

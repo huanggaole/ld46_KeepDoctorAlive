@@ -1,0 +1,4 @@
+{
+  "code": "export class Cover extends Laya.Scene {\r\n    createChildren() {\r\n        super.createChildren();\r\n        this.loadScene(\"cover\");\r\n    }\r\n}\r\n",
+  "references": []
+}
