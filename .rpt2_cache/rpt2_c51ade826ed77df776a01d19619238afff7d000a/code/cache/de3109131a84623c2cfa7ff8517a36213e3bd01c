@@ -1,0 +1,4 @@
+{
+  "code": "export var DialogType;\r\n(function (DialogType) {\r\n    DialogType[DialogType[\"info\"] = 0] = \"info\";\r\n    DialogType[DialogType[\"TwoSelection\"] = 1] = \"TwoSelection\";\r\n    DialogType[DialogType[\"ThreeSelection\"] = 2] = \"ThreeSelection\";\r\n})(DialogType || (DialogType = {}));\r\nexport default class PopDialog extends Laya.Dialog {\r\n    constructor(parent) {\r\n        super();\r\n        this.parentScene = parent;\r\n    }\r\n    onOpened() {\r\n        this.parentScene.mouseEnabled = false;\r\n        this.retBtn.on(Laya.Event.CLICK, this, this.close);\r\n        console.log(this.retBtn);\r\n    }\r\n    onClosed() {\r\n        this.parentScene.mouseEnabled = true;\r\n        super.onClosed();\r\n    }\r\n    onDisable() {\r\n    }\r\n}\r\n",
+  "references": []
+}

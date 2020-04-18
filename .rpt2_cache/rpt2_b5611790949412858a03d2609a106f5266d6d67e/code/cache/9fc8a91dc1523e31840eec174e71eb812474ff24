@@ -1,0 +1,6 @@
+{
+  "code": "import PopDialog from \"./scene/PopDialog\";\r\nexport default class GameConfig {\r\n    constructor() { }\r\n    static init() {\r\n        var reg = Laya.ClassUtils.regClass;\r\n        reg(\"PopDialog.ts\", PopDialog);\r\n    }\r\n}\r\nGameConfig.width = 1080;\r\nGameConfig.height = 560;\r\nGameConfig.scaleMode = \"showall\";\r\nGameConfig.screenMode = Laya.Stage.SCREEN_HORIZONTAL;\r\nGameConfig.alignV = \"top\";\r\nGameConfig.alignH = \"left\";\r\nGameConfig.startScene = \"cover.scene\";\r\nGameConfig.sceneRoot = \"\";\r\nGameConfig.debug = false;\r\nGameConfig.stat = false;\r\nGameConfig.physicsDebug = false;\r\nGameConfig.exportSceneToJson = true;\r\nGameConfig.init();\r\n",
+  "references": [
+    "C:/Users/huang/Documents/myLaya/ld46_KeepDoctorAlive/src/scene/PopDialog.ts"
+  ]
+}
