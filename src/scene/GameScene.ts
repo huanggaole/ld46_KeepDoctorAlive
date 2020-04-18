@@ -1,5 +1,7 @@
-import PopDialog from "./PopDialog";
-import { Events } from "./Events";
+import PopDialog, { PopEvent } from "./PopDialog";
+import { Events } from "../script/Events";
+import { Paper } from "../script/Paper";
+import { CardUI } from "../script/CardUI";
 
 export class GameScene extends Laya.Scene{
     public static ifChinses:boolean;
@@ -29,6 +31,15 @@ export class GameScene extends Laya.Scene{
     private adv:number;
 
     private btn_next:Laya.Button;
+    private cardBtn1:Laya.Button;
+    private cardBtn2:Laya.Button;
+    private cardBtn3:Laya.Button;
+    private cardBtn4:Laya.Button;
+    private cardBtn5:Laya.Button;
+    private cardBtn6:Laya.Button;
+    private cardBtn7:Laya.Button;
+    
+    private cardUIs:any;
 
     private p_health:Laya.ProgressBar;
     private p_conf:Laya.ProgressBar;
@@ -49,6 +60,15 @@ export class GameScene extends Laya.Scene{
     private p_paperpercent:Laya.ProgressBar;
 
     private events:Events;
+
+    private currentPaper:Paper;
+    private bestPaper:Paper;
+
+    private cardinfo:Laya.Sprite;
+    private btnDo:Laya.Button;
+    private btnDiscard:Laya.Button;
+    private cardTxt:Laya.Label;
+
     createChildren():void{
         super.createChildren();
         this.loadScene("GameScene");
@@ -59,10 +79,51 @@ export class GameScene extends Laya.Scene{
 
     onAwake(){
         this.btn_next.on(Laya.Event.CLICK, this, this.nextTurn);
+        this.cardUIs = [];
+        for(let i=0; i<7; i++){
+            let cardUI = new CardUI(i);
+            this.cardUIs.push(cardUI);
+        }
+        this.cardUIs[0].button = this.cardBtn1;
+        this.cardUIs[1].button = this.cardBtn2;
+        this.cardUIs[2].button = this.cardBtn3;
+        this.cardUIs[3].button = this.cardBtn4;
+        this.cardUIs[4].button = this.cardBtn5;
+        this.cardUIs[5].button = this.cardBtn6;
+        this.cardUIs[6].button = this.cardBtn7;
+        for(let i=0; i<7; i++){
+            this.cardUIs[i].init();
+        }
+        this.cardTxt.on(Laya.Event.CLICK, this, this.onClickCard);
+        this.on(Laya.Event.CLICK, this, this.onClick);
+    }
+
+    onClickCard(){
+        CardUI.cardClicked = true;
+    }
+    onClick(){
+        if(!CardUI.cardClicked){
+            CardUI.seletedIndex = -1;
+        }
+        
+        if(CardUI.seletedIndex == -1){
+            this.cardinfo.visible = false;
+        }else{
+            this.cardinfo.visible = true;
+        }
+
+        for(let i=0; i<this.cardUIs.length; i++){
+            this.cardUIs[i].updateUI();
+        }
+
+       CardUI.cardClicked = false;
     }
 
     init(ifChinese:boolean){
         GameScene.ifChinses = ifChinese;
+        this.currentPaper = new Paper();
+        this.bestPaper = new Paper();
+        this.cardinfo.visible = false;
 
         this.grade = 1;
         this.season = 1;
@@ -90,18 +151,25 @@ export class GameScene extends Laya.Scene{
             this.c_grade.skin = "comp/grade_cn.png"
             this.c_season.skin = "comp/season_cn.png"
             this.btn_next.label = "下一回合";
+            this.btnDo.label = "执行";
+            this.btnDiscard.label = "弃牌";
             
         }else{
             this.s_bg.loadImage("test/bg-en.png");
             this.c_grade.skin = "comp/grade_en.png"
             this.c_season.skin = "comp/season_en.png"
-            this.btn_next.label = "Next turn";            
+            this.btn_next.label = "Next turn";    
+            this.btnDo.label = "Do this";
+            this.btnDiscard.label = "Discard";        
         }
         this.updateUI();
         this.alert(this.events.getInitEvent());
     }
 
     nextTurn(){
+        if(this.grade == 1 && this.season == 1){
+            this.alert(this.events.getTeachInfo1());
+        }
         this.season += 1;
         if(this.season == 5){
             this.grade++;
@@ -136,10 +204,11 @@ export class GameScene extends Laya.Scene{
         }
     }
 
-    alert(event){
-        // Laya.Dialog.open("PopDialog.scene",true, []);
-        this.popdialog.init(event);
-        this.popdialog.open();
+    alert(events:[PopEvent]){
+        for(let i = 0; i < events.length; i++){
+            this.popdialog.init(events[i]);
+            this.popdialog.open();
+        }
     }
 
     checkWin(){

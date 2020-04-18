@@ -1,0 +1,4 @@
+{
+  "code": "export class CardUI {\r\n    constructor(i) {\r\n        this.index = i;\r\n    }\r\n    init() {\r\n        CardUI.cardClicked = false;\r\n        CardUI.seletedIndex = -1;\r\n        this.updateUI();\r\n        this.button.on(Laya.Event.CLICK, this, this.onClick);\r\n    }\r\n    updateUI() {\r\n        if (CardUI.seletedIndex == this.index) {\r\n            this.button.y = 356;\r\n            this.button.zOrder = this.index + 100;\r\n        }\r\n        else {\r\n            this.button.y = 376;\r\n            this.button.zOrder = this.index;\r\n        }\r\n    }\r\n    onClick() {\r\n        CardUI.cardClicked = true;\r\n        if ((CardUI.seletedIndex - this.index) == 0) {\r\n            CardUI.seletedIndex = -1;\r\n        }\r\n        else {\r\n            CardUI.seletedIndex = this.index;\r\n        }\r\n    }\r\n}\r\nCardUI.seletedIndex = -1;\r\nCardUI.cardClicked = false;\r\n",
+  "references": []
+}

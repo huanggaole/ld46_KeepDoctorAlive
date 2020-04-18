@@ -6,7 +6,20 @@ export enum DialogType{
 }
 
 export class PopEffect{
-
+    
+    constructor
+    (
+        public cMoney = 0,
+        public cProcess = 0,
+        public cPass = 0,
+        public cEnergy = 0,
+        public cHealth = 0,
+        public cConf = 0,
+        public cSoc = 0,
+        public cLove = 0,
+        public cMot = 0,
+        public cAdv = 0
+    ){}
 }
 
 export class PopEvent{
@@ -31,10 +44,11 @@ export default class PopDialog extends Laya.Dialog {
         this.parentScene = parent;
     }
     
-    init(event){
-        let type = event[0];
-        let Chiinfo = event[1];
-        let Enginfo = event[2];
+    init(popevent:PopEvent){
+        console.log(popevent);
+        let type = popevent.dialogType;
+        let Chiinfo = popevent.Chiinfo;
+        let Enginfo = popevent.Enginfo;
         
         if(GameScene.ifChinses){
             this.dialogtext.fontSize = 24;
@@ -54,6 +68,10 @@ export default class PopDialog extends Laya.Dialog {
         this.retBtn.on(Laya.Event.CLICK,this,this.close);
 
         console.log(this.retBtn);
+    }
+
+    onOpened(): void{
+        Laya.SoundManager.playSound("sound/button_click.wav");
     }
 
     onClosed(): void {
