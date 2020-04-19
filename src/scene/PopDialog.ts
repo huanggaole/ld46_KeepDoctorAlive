@@ -1,4 +1,5 @@
 import { GameScene } from "./GameScene";
+import { Events } from "../script/Events";
 
 export enum DialogType{
     info,
@@ -6,19 +7,20 @@ export enum DialogType{
 }
 
 export class PopEffect{
-    
+    // specialNote 的标记 1. 是否转换为恋爱状态 2. 3. 4. 5. 6.
     constructor
     (
         public cMoney = 0,
         public cProcess = 0,
-        public cPass = 0,
+        public cValue = 0,
         public cEnergy = 0,
         public cHealth = 0,
         public cConf = 0,
         public cSoc = 0,
         public cLove = 0,
         public cMot = 0,
-        public cAdv = 0
+        public cAdv = 0,
+        public specialNote = 0
     ){}
 }
 
@@ -35,17 +37,21 @@ export class PopEvent{
 
 export default class PopDialog extends Laya.Dialog {
     private retBtn:Laya.Button;
-    private parentScene:Laya.Scene;
+    private parentScene:GameScene;
     private dialogtext:Laya.Label;
     private choice1Btn:Laya.Button;
     private choice2Btn:Laya.Button;
+    private popevents:PopEvent[];
     constructor(parent) { 
         super(); 
         this.parentScene = parent;
     }
     
-    init(popevent:PopEvent){
-        console.log(popevent);
+    
+
+    init(_popevents:PopEvent[]){
+        let popevent = _popevents.pop();
+        this.popevents = _popevents;
         let type = popevent.dialogType;
         let Chiinfo = popevent.Chiinfo;
         let Enginfo = popevent.Enginfo;
@@ -58,16 +64,19 @@ export default class PopDialog extends Laya.Dialog {
             this.dialogtext.text = Enginfo;
         }
 
+        if(popevent.popeffect != null){
+            this.dialogtext.text += "\n\n" + Events.genEffectInfo(GameScene.ifChinses,popevent.popeffect);
+        }
+        
         if(type == DialogType.info){
             this.retBtn.visible = true;
             this.choice1Btn.visible = false;
             this.choice2Btn.visible = false;
         }
-
+        
+        this.parentScene.settleEffect(popevent.popeffect);
         this.parentScene.mouseEnabled = false;
         this.retBtn.on(Laya.Event.CLICK,this,this.close);
-
-        console.log(this.retBtn);
     }
 
     onOpened(): void{
@@ -77,6 +86,9 @@ export default class PopDialog extends Laya.Dialog {
     onClosed(): void {
         this.parentScene.mouseEnabled = true;
         super.onClosed();
+        if(this.popevents.length > 0){
+            this.parentScene.alert(this.popevents);
+        }
     }
 
     onDisable(): void {

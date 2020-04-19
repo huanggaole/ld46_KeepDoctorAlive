@@ -2,11 +2,11 @@
     "x":0,
     "type":"Scene",
     "selectedBox":2,
-    "selecteID":43,
+    "selecteID":50,
     "searchKey":"Scene",
     "props":{"width":1080,"sceneColor":"#000000","hitTestPrior":false,"height":560},
     "nodeParent":-1,
-    "maxID":49,
+    "maxID":51,
     "label":"Scene",
     "isOpen":true,
     "isDirectory":true,
@@ -404,6 +404,34 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":41,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Label",
+            "searchKey":"Label,l_status",
+            "props":{"y":129,"x":115,"width":144,"var":"l_status","text":"普通","styleSkin":"comp/label.png","height":34,"fontSize":30,"font":"SimHei","color":"#ff0400","align":"left"},
+            "nodeParent":2,
+            "label":"l_status",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":49,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Label",
+            "searchKey":"Label,l_cstatus",
+            "props":{"y":169,"x":30,"wordWrap":true,"width":149,"var":"l_cstatus","overflow":"scroll","height":136,"fontSize":20},
+            "nodeParent":2,
+            "label":"l_cstatus",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":50,
             "child":[
                 ]
         },

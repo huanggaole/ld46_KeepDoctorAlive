@@ -1,0 +1,4 @@
+{
+  "code": "export class Paper {\r\n    constructor(process, value, versionNum) {\r\n        this.process = process;\r\n        this.value = value;\r\n        this.versionNum = versionNum;\r\n    }\r\n}\r\n",
+  "references": []
+}

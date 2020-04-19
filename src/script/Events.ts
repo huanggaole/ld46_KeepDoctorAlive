@@ -1,12 +1,53 @@
 import{DialogType,PopEvent,PopEffect} from "../scene/PopDialog";
-export class Events{
-    /*
-    checkEvents():[PopEvent]{
-        let allEvents = [];
 
+export class Events{
+    
+    static genEffect(key:string,value:number):string{
+        let ret = "";
+        if(value > 0){
+            ret = key + "+" + value.toString() + "; "
+        }else if(value < 0){
+            ret = key + value.toString() + "; "
+        }
+        return ret;
+    }
+
+    static genEffectInfo(ifChinses,popeffect):string{
+        let ret = "";
+        if(ifChinses){
+            ret += "影响：";
+            ret += Events.genEffect("精力",popeffect.cEnergy);
+            ret += Events.genEffect("金钱",popeffect.cMoney);
+            ret += Events.genEffect("论文进度",popeffect.cProcess);
+            ret += Events.genEffect("健康",popeffect.cHealth);
+            ret += Events.genEffect("自信",popeffect.cConf);
+            ret += Events.genEffect("社交",popeffect.cSoc);
+            ret += Events.genEffect("爱情",popeffect.cLove);
+            ret += Events.genEffect("动机",popeffect.cMot);
+            ret += Events.genEffect("导师关系",popeffect.cAdv);
+        }else{
+            ret += "Effect:";
+            ret += Events.genEffect("Energy",popeffect.cEnergy);
+            ret += Events.genEffect("Money",popeffect.cMoney);
+            ret += Events.genEffect("Research Process",popeffect.cProcess);
+            ret += Events.genEffect("Health",popeffect.cHealth);
+            ret += Events.genEffect("Confidence",popeffect.cConf);
+            ret += Events.genEffect("Social",popeffect.cSoc);
+            ret += Events.genEffect("Love",popeffect.cLove);
+            ret += Events.genEffect("Motivation",popeffect.cMot);
+            ret += Events.genEffect("Advisor Favorability",popeffect.cAdv);
+        }
+        return ret
+    }
+    
+    checkEvents(grade, season):any[]{
+        let allEvents = [];
+        if(grade == 1 && season == 3){
+            allEvents = allEvents.concat(this.getTeachInfo2());
+        }
         return allEvents;
     }
-    */
+    
     getInitEvent(): [PopEvent]{
         let event = new PopEvent();
         event.dialogType = DialogType.info;
@@ -19,6 +60,80 @@ export class Events{
         event.dialogType = DialogType.info;
         event.Chiinfo = "每个人的精力是有限的，在结束回合之前，需要把手头上的工作卡片丢弃至不超过4张。\n注意：\n1. 有的工作有时限要求，如果当前回合不做的话，回合结束时会自动丢弃。此类工作卡牌上会标有 lim.\n2. 有的工作被丢弃时有副作用，具体副作用可以点击卡片查看详情。此类工作卡牌上会标有 se.\n",
         event.Enginfo = "Everyone's energy is limited. Before the end of a turn, you need to discard the work cards on hand to no more than 4 cards.\nnote:\n1. Some work has time limit. If you don’t do it in the current turn, it will be automatically discarded when the turn ends. Such work cards will be marked with 'lim.'\n2. Some jobs have side effects when they are discarded. For specific side effects, you can click the card to view the details. Such work cards will be marked with 'se.'";
+        return [event];
+    }
+    getTeachInfo2(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "你发现了吗？每一回合开始时，我都会将手牌补满。\n\n而具体会补哪些种类的手牌，视我的心情与状态而定。\n\n心情与状态正面，通常可以获得正面的手牌。尽量保持我的状态足够正面积极吧！";
+        event.Enginfo = "Did you find out that at the beginning of each turn, I fill up my cards in hand?\n\nAnd what kinds of cards to fill depends on my emotions and status.\n\nPositive emotions and status usually can get positive cards. Try to keep my emotions alive!";
+        return [event];
+    }
+    getAllowance(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "每个学年开始时，可以获得奖学金与津贴。\n\n这是本学年的奖学金与津贴——800元。\n\n注意：延期期间(博六-博八)是没有奖学金与津贴补助的。";
+        event.Enginfo = "Scholarships and allowances are available at the beginning of each academic year. \n\nThis is the scholarship and allowance for this academic year : 800 yuan. \n\nNote: there is no scholarship or allowance during the delay period(6th-8th).";
+        event.popeffect = new PopEffect(800);
+        return [event];
+    }
+    getNoMoney(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "对不起，我的金钱不足，不能做这件事。";
+        event.Enginfo = "Sorry, I don't have enough money to do it."; 
+        return [event];
+    }
+    getNoEnergy(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "对不起，我的精力不足，不能做这件事。";
+        event.Enginfo = "Sorry, I don't have enough Energy to do it."; 
+        return [event];
+    }
+    getSuccessInLove(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "我今天谈了一个对象。";
+        event.Enginfo = "Hey, guess what? I find a lover today!"; 
+        return [event];
+    }
+    getFailInLove(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "我今天玩得很尽兴，如果能交到女朋友就更好了！";
+        event.Enginfo = "I have a good time today. It would be better if I could find a lover."; 
+        return [event];
+    }
+
+    getill(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "我生病了。";
+        event.Enginfo = "I fill sick.";
+        return [event];
+    }
+    getcure(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "我恢复了健康。";
+        event.Enginfo = "I'm cured.";
+        return [event];
+    }
+    getDepress(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "我抑郁了。";
+        event.Enginfo = "I'm depressed.";
+        return [event];
+    }
+    getRemovedDepress(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "";
+        event.Enginfo = "";
+        event.Chiinfo = "我不再抑郁了。";
+        event.Enginfo = "I'm not depressed anymore."; 
         return [event];
     }
 }
