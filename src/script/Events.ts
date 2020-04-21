@@ -127,6 +127,34 @@ export class Events{
         event.Enginfo = "I'm depressed.";
         return [event];
     }
+    getOneScore(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "我通过上课获得了1个学分。";
+        event.Enginfo = "I get 1 credit by taking the class.";
+        return [event];
+    }
+    getRejectAdv(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "你拒绝了导师的要求，这令他很生气。";
+        event.Enginfo = "My refused the supervisor's request, which made him angry.";
+        return [event];
+    }
+    getInternship(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "我外出实习的事情让导师知道了，这令他很生气。";
+        event.Enginfo = "My supervisor has known my internship. He got angry.";
+        return [event];
+    }
+    getBreakUp(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "女朋友打电话来说她很失望，我们分手了。";
+        event.Enginfo = "My girlfriend called to say she was disappointed. We broke up.";
+        return [event];
+    }
     getRemovedDepress(): [PopEvent]{
         let event = new PopEvent();
         event.dialogType = DialogType.info;

@@ -165,7 +165,6 @@ export class GameScene extends Laya.Scene{
     }
 
     onDiscard(index){
-        
         let card = this.cardUIs[index].card as Card;
         if(card.se != null){
             this.settleEffect(card.se);
@@ -203,13 +202,22 @@ export class GameScene extends Laya.Scene{
         this.ifinDepress = false;
         this.ifinLove = false;
 
+        // 初始化牌库
+        this.cardmanager.genCardPool(this.score, this.ifinLove, this.ifinDepress, this.health, this.conf, this.soc, this.love, this.mot, this.adv);
+        // 补满卡牌
+        for(let i = 0; i<this.cardUIs.lengthl; i++){
+            if(this.cardUIs[i].card == null){
+                this.cardUIs[i].card = this.cardmanager.getCard();
+            }
+        }
+
         this.cardUIs[0].card = this.cardmanager.getCardById(0);
         this.cardUIs[1].card = this.cardmanager.getCardById(1);
         this.cardUIs[2].card = this.cardmanager.getCardById(2);
         this.cardUIs[3].card = this.cardmanager.getCardById(3);
-        this.cardUIs[4].card = this.cardmanager.getCardById(0);
-        this.cardUIs[5].card = this.cardmanager.getCardById(1);
-        this.cardUIs[6].card = this.cardmanager.getCardById(2);
+        this.cardUIs[4].card = this.cardmanager.getCard();
+        this.cardUIs[5].card = this.cardmanager.getCard();
+        this.cardUIs[6].card = this.cardmanager.getCard();
 
         if(ifChinese){
             this.s_bg.loadImage("test/bg-cn.png");
@@ -291,9 +299,18 @@ export class GameScene extends Laya.Scene{
         }
         this.enegy = 7;
 
-        this.updateUI();
         Laya.SoundManager.playSound("sound/hit.wav");
         this.getEffectforEachTurn();
+        // 初始化牌库
+        this.cardmanager.genCardPool(this.score, this.ifinLove, this.ifinDepress, this.health, this.conf, this.soc, this.love, this.mot, this.adv);
+        // 补满卡牌
+        for(let i = 0; i<this.cardUIs.length; i++){
+            console.log(this.cardUIs[i].card);
+            if(this.cardUIs[i].card == null){
+                this.cardUIs[i].card = this.cardmanager.getCard();
+            }
+        }
+        this.updateUI();
     }
 
     updateUI(){
@@ -304,7 +321,7 @@ export class GameScene extends Laya.Scene{
         this.l_paper.text = this.paper.toString();
         this.l_fpp.text = this.finalpaperpercent.toString();
         this.l_enegy.text = this.enegy.toString();
-        this.p_paperpercent.value = this.paperpercent;
+        this.p_paperpercent.value = this.paperpercent / 100;
         this.p_health.value = this.health / 100;
         this.p_conf.value = this.conf / 100;
         this.p_soc.value = this.soc / 100;
@@ -371,6 +388,22 @@ export class GameScene extends Laya.Scene{
             }else{
                 // 未交到女朋友
                 this.alert(this.events.getFailInLove());
+            }
+        }
+        if(popeffect.specialNote == 2){
+            this.score += 1;
+            this.alert(this.events.getOneScore());
+        }
+        if(popeffect.specialNote == 3){
+            this.alert(this.events.getRejectAdv());
+        }
+        if(popeffect.specialNote == 4){
+            this.alert(this.events.getInternship());
+        }
+        if(popeffect.specialNote == 5){
+            if(Math.random() <= 0.2){
+                this.ifinLove = false;
+               this.alert(this.events.getBreakUp());
             }
         }
         this.updateUI();

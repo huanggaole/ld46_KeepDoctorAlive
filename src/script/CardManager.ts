@@ -22,12 +22,13 @@ export class Card{
 }
 export class CardManager{
     public cards = [];
+    public cardspool = [];
     constructor(){
         // 0. 新生老乡会
         let info_cn = "与老乡们在一起聚会。";
         let info_en = "Have party with other freshmen.";
         let effect = new PopEffect(0,0,0,-2,0,0,20,0,0,0);
-        let se = null;
+        let se = new PopEffect(0,0,0,0,0,0,0,0,0,0);
         this.cards.push(new Card("新生老乡会","Freshmen\nParty",info_cn,info_en,effect,null,true));
         // 1. 新生联谊会
         info_cn = "有一定几率交到恋人。成功概率为 0.5 * (健康 + 自信 - 100)%";
@@ -158,8 +159,9 @@ export class CardManager{
         info_cn = "导师希望我能帮他跑跑腿办点事。";
         info_en = "My advisor ask me to do some legwork for him.";
         effect = new PopEffect(0, 0, 0, -1, 0, 0, 0, 0, 0, 5);
-        se = new PopEffect(0, 0, 0, 0, 0, 0, 0, 0, 0, -10);
-        this.cards.push(new Card("跑腿办事","Legwaork",info_cn,info_en,effect,null));
+        se = new PopEffect(0, 0, 0, 0, 0, 0, 0, 0, 0, -10, 3);
+        this.cards.push(new Card("跑腿办事","Legwaork",info_cn,info_en,effect, null, true, se));
+        console.log(this.cards);
         // 27. 寻求指导
         info_cn = "科研遇到了瓶颈，也许可以去向导师寻求一些指导？";
         info_en = "There is a bottleneck in research. Maybe I can go to my supervisor for some guidance?";
@@ -174,13 +176,13 @@ export class CardManager{
         info_cn = "导师今天突然很客气，看来是有横向项目需要人手。";
         info_en = "The supervisor was very polite today. It seems that there are horizontal projects that need manpower.";
         effect = new PopEffect(0, 0, 0, -5, -10, 20, 0, 0, 10, 20);
-        se = new PopEffect(0, 0, 0, 0, 0, 0, 0, 0, 0, -30);
-        this.cards.push(new Card("横向项目","Horizontal\nProject",info_cn,info_en,effect,null));
+        se = new PopEffect(0, 0, 0, 0, 0, 0, 0, 0, 0, -30, 3);
+        this.cards.push(new Card("横向项目","Horizontal\nProject",info_cn,info_en,effect,null,true,se));
         // 30. 给导师送礼
         info_cn = "吃人的嘴短，拿人的手软。";
         info_en = "Gifts blind the eyes.";
         effect = new PopEffect(-200, 0, 0, -1, 0 ,0 , 0, 0, 0, 20);
-        this.cards.push(new Card("给导师送礼","Bribe the\nSupervisor",info_cn,info_en,effect,null,true));
+        this.cards.push(new Card("给导师送礼","Bribe the\nSupervisor",info_cn,info_en,effect,null));
         // 31. 换导师
         info_cn = "我觉得，现在的导师不适合我。我想换导师。";
         info_en = "I don't think the current supervisor is suitable for me. I want to change my supervisor.";
@@ -189,12 +191,12 @@ export class CardManager{
         // 32. 上课
         info_cn = "只注重分数的研究生不是一个好研究生，但是学分不够可毕不了业。通过上课来获得一个学分。";
         info_en = "A graduate student who only pays attention to scores is not a good graduate student, but he can't get his ph.D. degree if his credits are not enough. Get credits by taking classes.";
-        effect = new PopEffect(0, 0, 0, -5, 0, 0, 0, 0, 30, 0);
+        effect = new PopEffect(0, 0, 0, -5, 0, 0, 0, 0, 30, 0, 2);
         this.cards.push(new Card("上课","Take a\nClass",info_cn,info_en,effect,null));
         // 33. 外出实习
         info_cn = "实验室一个月发给我的补助，我到外面企业里实习一两天就挣到了。但是我的导师并不乐意我去实习。";
         info_en = "The allowance that the laboratory gives me, I can earn in one or two days in an enterprise. However, my supervisor is against me for an internship.";
-        effect = new PopEffect(1000, 0, 0, -3, 0, 0, 0, 0, 0, -50);
+        effect = new PopEffect(1000, 0, 0, -3, 0, 0, 0, 0, 0, -50, 4);
         this.cards.push(new Card("外出实习","Go for an\ninternship",info_cn,info_en,effect,null));
         // 34. 卧床休息
         info_cn = "我需要休息。";
@@ -215,12 +217,83 @@ export class CardManager{
         info_cn = "一起逛街,一起吃饭,一起看电影，然后，一起……";
         info_en = "Shopping together, eating together, watching movies together, and then...";
         effect = new PopEffect(-50, 0, 0, -1, 10, 10, 10, 10, 10, 0);
-        this.cards.push(new Card("恋人约会","Dating\nwith Lover",info_cn,info_en,effect,null));
+        se = new PopEffect(0,0,0,0,0,0,0,0,0,0,5);
+        this.cards.push(new Card("恋人约会","Dating\nwith Lover",info_cn,info_en,effect,null,false,se));
         // 38. 恋人旅行
         info_cn = "我在乎的不是目的地,而是有你会陪我一起看沿途的风景。";
         info_en = "What I care about is not the destination, but the scenery along the way with you.";
         effect = new PopEffect(-180, 0, 0, -3, 40, 40, 40, 40, 40, 0);
-        this.cards.push(new Card("恋人旅行","Traveling\nwith Lover",info_cn,info_en,effect,null));
+        se = new PopEffect(0,0,0,0,0,0,0,0,0,0,5);        
+        this.cards.push(new Card("恋人旅行","Traveling\nwith Lover",info_cn,info_en,effect,null,false,se));
+    }
+
+    public genCardPool(_score,_ifinlove,_ifindepress,_health,_conf,_soc,_love,_mot,_adv){
+        this.cardspool = [];
+        this.cardspool.push(4);this.cardspool.push(5);this.cardspool.push(6);this.cardspool.push(7);
+        this.cardspool.push(10);this.cardspool.push(11);this.cardspool.push(12);this.cardspool.push(13);
+        this.cardspool.push(14);this.cardspool.push(15);this.cardspool.push(16);this.cardspool.push(16);
+        if(_mot >= 60){
+            this.cardspool.push(17);this.cardspool.push(18);this.cardspool.push(19);this.cardspool.push(20);this.cardspool.push(21);            
+        }else{
+            this.cardspool.push(22);this.cardspool.push(23);this.cardspool.push(24);this.cardspool.push(25);this.cardspool.push(10);
+        }
+        if(_adv > 40){
+            this.cardspool.push(26);this.cardspool.push(26);this.cardspool.push(27);this.cardspool.push(28);this.cardspool.push(29);
+        }else{
+            this.cardspool.push(26);this.cardspool.push(26);this.cardspool.push(30);this.cardspool.push(31);this.cardspool.push(29);
+        }
+        if(_score < 6){
+            let num = this.cardspool.length;
+            for(let i=0; i<num/3; i++){
+                this.cardspool.push(32);
+            }
+        }
+        if(_health <= 40){
+            let num = this.cardspool.length;
+            for(let i=0; i<num/4; i++){
+                this.cardspool.push(34);
+                this.cardspool.push(35);                
+            }
+        }
+        if(_conf <= 40){
+            let num = this.cardspool.length;
+            for(let i=0; i<num/4; i++){
+                this.cardspool.push(36);
+                this.cardspool.push(10);                              
+            }
+        }
+        if(_love <= 40){
+            let num = this.cardspool.length;
+            for(let i=0; i<num/6; i++){
+                this.cardspool.push(7);
+                this.cardspool.push(8);
+                this.cardspool.push(9);                                
+            }
+        }
+        if(_soc <= 40){
+            let num = this.cardspool.length;
+            for(let i=0; i<num/8; i++){
+                this.cardspool.push(4);
+                this.cardspool.push(5);
+                this.cardspool.push(6);
+            }
+        }
+        if(_ifinlove){
+            let num = this.cardspool.length;
+            for(let i=0; i<num/28; i++){
+                this.cardspool.push(37);
+                this.cardspool.push(37);
+                this.cardspool.push(37);                
+                this.cardspool.push(38);
+            }
+        }
+        if(_ifindepress){
+            let num = this.cardspool.length;
+            for(let i=0; i<num/2; i++){
+                this.cardspool.push(34);
+                this.cardspool.push(35);
+            }
+        }
     }
 
     getCardById(index):Card{
@@ -228,6 +301,8 @@ export class CardManager{
     }
 
     getCard():Card{
-        return this.cards[0];
+        console.log(this.cardspool);
+        let num = this.cardspool.length;
+        return this.cards[this.cardspool[Math.floor((Math.random() * num))]];
     }
 }

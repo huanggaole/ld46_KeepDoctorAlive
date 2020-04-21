@@ -25,19 +25,25 @@ export class CardUI{
             ret = this.card.name_cn + "\n\n" + this.card.info_cn + "\n\n" + Events.genEffectInfo(GameScene.ifChinses,this.card.effect);
             ret += "\n\n"
             if(this.card.lim){
-                ret += "* 本卡牌是一张限时牌。如果没被打出，此牌会在回合结束时自动丢弃。\n";
+                ret += "* 限时牌：回合结束时自动丢弃。\n";
             }
             if(this.card.se != null){
-                ret += "* 本卡无论被主动还是被动丢弃时均会有副作用，弃牌时的具体" + Events.genEffectInfo(GameScene.ifChinses,this.card.effect);
+                ret += "* 弃牌" + Events.genEffectInfo(GameScene.ifChinses,this.card.se);
+                if(this.card.se != null && this.card.se.specialNote == 5){
+                    ret += "有20%的几率分手。";
+                }
             }
         }else{
             ret = this.card.name_en + "\n\n" + this.card.info_en + "\n\n" + Events.genEffectInfo(GameScene.ifChinses,this.card.effect);
             ret += "\n\n"
             if(this.card.lim){
-                ret += "* This card is a time limited card. If not played in this turn, it will be automatically discarded at the end of the turn.\n";
+                ret += "* Limited card: this card will be automatically discarded at the end of the turn.\n";
             }
             if(this.card.se != null){
-                ret += "* When discarded the card discarded or actively, it has such " +  + Events.genEffectInfo(GameScene.ifChinses,this.card.effect);
+                ret += "* When discarded, this card has such " +  + Events.genEffectInfo(GameScene.ifChinses,this.card.se);
+                if(this.card.se != null && this.card.se.specialNote == 5){
+                    ret += "有20%的几率分手。";
+                }
             }
         }
         return ret;
