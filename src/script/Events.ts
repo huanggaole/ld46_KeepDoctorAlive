@@ -158,10 +158,35 @@ export class Events{
     getRemovedDepress(): [PopEvent]{
         let event = new PopEvent();
         event.dialogType = DialogType.info;
-        event.Chiinfo = "";
-        event.Enginfo = "";
         event.Chiinfo = "我不再抑郁了。";
         event.Enginfo = "I'm not depressed anymore."; 
         return [event];
+    }
+    getSicktoDead(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "由于身体的疾病迟迟没有得到治愈，疾病恶化成了绝症。医生告诉我只剩下3个月的寿命了，就算现在给我一个博士文凭，也没有什么意义了。";
+        event.Enginfo = "As the disease of the body has not been cured for a long time, it has become a terminal disease. The doctor told me that I had only three months left. Even if I had a ph.D degree now, it would be meaningless."; 
+        return [event];
+    }
+    getSuddenDeathEnd(): [PopEvent]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "由于健康状况不佳，在经历过超负荷的工作、连续几月的加班之后，我的身体吃不消，于今日凌晨猝死了。";
+        event.Enginfo = "Due to my poor health, after overwork and several months of overtime work, my body couldn't bear it, and I died suddenly in the early hours of this morning."; 
+        return [event];
+    }
+    getDropOutEnd():PopEvent[]{
+        let event = new PopEvent();
+        event.dialogType = DialogType.info;
+        event.Chiinfo = "";
+        event.Enginfo = "";
+        event.Chiinfo = "由于达到最长毕业年限依然没有毕业，我被学校清退了。";
+        event.Enginfo = "Since I still haven't graduated after reaching the longest graduation period, I have been dismissed from the school."; 
+        let event1 = new PopEvent();
+        event1.Chiinfo = "我只好拿着本科的学历去找8年前本科毕业水平的工作，我的八年青春不知道被谁偷走了，学术生涯也已经死了。";
+        event1.Enginfo = "I have to take my bachelor's degree to find a job at the level of eight years ago. I don't know who stole my eight years of youth, and my academic career has died."; 
+        let events = [event1,event];
+        return events;
     }
 }

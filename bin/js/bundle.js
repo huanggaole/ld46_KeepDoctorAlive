@@ -156,11 +156,36 @@
         getRemovedDepress() {
             let event = new PopEvent();
             event.dialogType = DialogType.info;
-            event.Chiinfo = "";
-            event.Enginfo = "";
             event.Chiinfo = "我不再抑郁了。";
             event.Enginfo = "I'm not depressed anymore.";
             return [event];
+        }
+        getSicktoDead() {
+            let event = new PopEvent();
+            event.dialogType = DialogType.info;
+            event.Chiinfo = "由于身体的疾病迟迟没有得到治愈，疾病恶化成了绝症。医生告诉我只剩下3个月的寿命了，就算现在给我一个博士文凭，也没有什么意义了。";
+            event.Enginfo = "As the disease of the body has not been cured for a long time, it has become a terminal disease. The doctor told me that I had only three months left. Even if I had a ph.D degree now, it would be meaningless.";
+            return [event];
+        }
+        getSuddenDeathEnd() {
+            let event = new PopEvent();
+            event.dialogType = DialogType.info;
+            event.Chiinfo = "由于健康状况不佳，在经历过超负荷的工作、连续几月的加班之后，我的身体吃不消，于今日凌晨猝死了。";
+            event.Enginfo = "Due to my poor health, after overwork and several months of overtime work, my body couldn't bear it, and I died suddenly in the early hours of this morning.";
+            return [event];
+        }
+        getDropOutEnd() {
+            let event = new PopEvent();
+            event.dialogType = DialogType.info;
+            event.Chiinfo = "";
+            event.Enginfo = "";
+            event.Chiinfo = "由于达到最长毕业年限依然没有毕业，我被学校清退了。";
+            event.Enginfo = "Since I still haven't graduated after reaching the longest graduation period, I have been dismissed from the school.";
+            let event1 = new PopEvent();
+            event1.Chiinfo = "我只好拿着本科的学历去找8年前本科毕业水平的工作，我的八年青春不知道被谁偷走了，学术生涯也已经死了。";
+            event1.Enginfo = "I have to take my bachelor's degree to find a job at the level of eight years ago. I don't know who stole my eight years of youth, and my academic career has died.";
+            let events = [event1, event];
+            return events;
         }
     }
 
@@ -376,7 +401,7 @@
             this.cards.push(new Card("辛勤科研", "Research\nHard", info_cn, info_en, effect, null));
             info_cn = "从醒来到就寝，除了解决生理需求你都在科研。长此以往有猝死的风险。";
             info_en = "From waking up to going to bed, you are doing research in addition to solving your physiological needs. There is a risk of sudden death in the long run.";
-            effect = new PopEffect(0, 30, 15, -7, -30, 0, -30, -30, 5, 5);
+            effect = new PopEffect(0, 30, 15, -7, -30, 0, -30, -30, 5, 5, 6);
             this.cards.push(new Card("残酷科研", "Research\nCruelly", info_cn, info_en, effect, null));
             info_cn = "如果有缘，知识会自己进到我脑子里。论文也会不知不觉中写完。";
             info_en = "if there is a chance, knowledge will come into my mind. The paper will be finished unconsciously.";
@@ -416,7 +441,7 @@
             info_cn = "吃人的嘴短，拿人的手软。";
             info_en = "Gifts blind the eyes.";
             effect = new PopEffect(-200, 0, 0, -1, 0, 0, 0, 0, 0, 20);
-            this.cards.push(new Card("给导师送礼", "Bribe the\nSupervisor", info_cn, info_en, effect, null, true));
+            this.cards.push(new Card("给导师送礼", "Bribe the\nSupervisor", info_cn, info_en, effect, null));
             info_cn = "我觉得，现在的导师不适合我。我想换导师。";
             info_en = "I don't think the current supervisor is suitable for me. I want to change my supervisor.";
             effect = new PopEffect(0, 0, 0, -2, 0, 0, 0, 0, 0, -20);
@@ -671,8 +696,10 @@
             this.love = 60;
             this.mot = 60;
             this.adv = 60;
+            this.illturn = 0;
             this.ifinDepress = false;
             this.ifinLove = false;
+            this.ifill = false;
             this.cardmanager.genCardPool(this.score, this.ifinLove, this.ifinDepress, this.health, this.conf, this.soc, this.love, this.mot, this.adv);
             for (let i = 0; i < this.cardUIs.lengthl; i++) {
                 if (this.cardUIs[i].card == null) {
@@ -728,6 +755,7 @@
                 this.season = 1;
             }
             if (this.grade == 9) {
+                this.alert(this.events.getDropOutEnd());
                 this.endGame();
             }
             this.updateUI();
@@ -740,8 +768,14 @@
                     this.ifill = true;
                     events = events.concat(this.events.getill());
                 }
+                this.illturn++;
+                if (this.illturn == 5) {
+                    events = events.concat(this.events.getSicktoDead());
+                    this.endGame();
+                }
             }
             else {
+                this.illturn = 0;
                 if (this.ifill) {
                     this.ifill = false;
                     events = events.concat(this.events.getcure());
@@ -856,6 +890,12 @@
                     this.alert(this.events.getBreakUp());
                 }
             }
+            if (popeffect.specialNote == 6) {
+                if (this.health < 10) {
+                    this.alert(this.events.getSuddenDeathEnd());
+                    this.endGame();
+                }
+            }
             this.updateUI();
         }
         checkWin() {
@@ -893,7 +933,7 @@
                 effect.cAdv -= 10;
             }
             if (this.ifill) {
-                effect.cEnergy -= 3;
+                effect.cHealth -= 10;
             }
             return effect;
         }

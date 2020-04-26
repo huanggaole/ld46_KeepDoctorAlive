@@ -7,7 +7,7 @@ export enum DialogType{
 }
 
 export class PopEffect{
-    // specialNote 的标记 1. 是否转换为恋爱状态 2. 上课 3. 导师生气 4. 实习被导师指导 5. 分手 6.
+    // specialNote 的标记 1. 是否转换为恋爱状态 2. 上课 3. 导师生气 4. 实习被导师指导 5. 分手 6. 猝死
     constructor
     (
         public cMoney = 0,

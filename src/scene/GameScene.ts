@@ -81,6 +81,8 @@ export class GameScene extends Laya.Scene{
     private l_status:Laya.Label;
     private l_cstatus:Laya.Label;
 
+    private illturn:number;
+
     createChildren():void{
         super.createChildren();
         this.loadScene("GameScene");
@@ -199,9 +201,11 @@ export class GameScene extends Laya.Scene{
         this.mot = 60;
         this.adv = 60;
 
+        this.illturn = 0;
+
         this.ifinDepress = false;
         this.ifinLove = false;
-
+        this.ifill = false;
         // 初始化牌库
         this.cardmanager.genCardPool(this.score, this.ifinLove, this.ifinDepress, this.health, this.conf, this.soc, this.love, this.mot, this.adv);
         // 补满卡牌
@@ -263,7 +267,7 @@ export class GameScene extends Laya.Scene{
         }
         if(this.grade == 9){
             // 游戏结束
-            // this.alert();
+            this.alert(this.events.getDropOutEnd());
             this.endGame();
         }
         this.updateUI();
@@ -277,7 +281,13 @@ export class GameScene extends Laya.Scene{
                 this.ifill = true;
                 events = events.concat(this.events.getill());
             }
+            this.illturn++;
+            if(this.illturn == 5){
+                events = events.concat(this.events.getSicktoDead());
+                this.endGame();
+            }
         }else{
+            this.illturn = 0;
             if(this.ifill){
                 this.ifill = false;
                 events = events.concat(this.events.getcure());
@@ -406,6 +416,12 @@ export class GameScene extends Laya.Scene{
                this.alert(this.events.getBreakUp());
             }
         }
+        if(popeffect.specialNote == 6){
+            if(this.health < 10){
+                this.alert(this.events.getSuddenDeathEnd());
+                this.endGame();
+            }
+        }
         this.updateUI();
     }
 
@@ -445,7 +461,7 @@ export class GameScene extends Laya.Scene{
             effect.cAdv -= 10;
         }
         if(this.ifill){
-            effect.cEnergy -= 3;
+            effect.cHealth -= 10;
         }
         return effect;
     }

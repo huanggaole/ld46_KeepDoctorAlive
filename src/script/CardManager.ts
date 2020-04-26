@@ -133,7 +133,7 @@ export class CardManager{
         // 21. 残酷科研
         info_cn = "从醒来到就寝，除了解决生理需求你都在科研。长此以往有猝死的风险。";
         info_en = "From waking up to going to bed, you are doing research in addition to solving your physiological needs. There is a risk of sudden death in the long run.";
-        effect = new PopEffect(0, 30, 15, -7, -30, 0, -30, -30, 5, 5);
+        effect = new PopEffect(0, 30, 15, -7, -30, 0, -30, -30, 5, 5, 6);
         this.cards.push(new Card("残酷科研","Research\nCruelly",info_cn,info_en,effect,null));
         // 22. 轻松摸鱼
         info_cn = "如果有缘，知识会自己进到我脑子里。论文也会不知不觉中写完。";
